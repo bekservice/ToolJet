@@ -419,5 +419,17 @@
     "tags": [
       "AI"
     ]
+  },
+  {
+    "name": "Famulor",
+    "description": "Place and inspect Famulor AI voice calls, campaigns, leads and phone numbers",
+    "version": "1.0.0",
+    "id": "famulor",
+    "author": "bekservice",
+    "timestamp": "Thu, 29 Oct 2026 05:30:00 GMT",
+    "repo": "",
+    "tags": [
+      "AI"
+    ]
   }
 ]

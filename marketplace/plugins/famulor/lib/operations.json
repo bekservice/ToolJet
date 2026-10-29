@@ -1,0 +1,486 @@
+{
+  "$schema": "https://raw.githubusercontent.com/ToolJet/ToolJet/develop/plugins/schemas/operations.schema.json",
+  "title": "Famulor datasource",
+  "description": "A schema defining Famulor datasource",
+  "type": "api",
+  "defaults": {
+    "operation": "list_assistants"
+  },
+  "properties": {
+    "operation": {
+      "label": "Operation",
+      "key": "operation",
+      "type": "dropdown-component-flip",
+      "description": "Select an operation",
+      "list": [
+        { "value": "list_assistants", "name": "List assistants" },
+        { "value": "get_assistant", "name": "Get assistant" },
+        { "value": "create_call", "name": "Make outbound call" },
+        { "value": "get_call", "name": "Get call" },
+        { "value": "list_calls", "name": "List calls" },
+        { "value": "list_campaigns", "name": "List campaigns" },
+        { "value": "list_leads", "name": "List leads" },
+        { "value": "create_lead", "name": "Create lead" },
+        { "value": "list_phone_numbers", "name": "List phone numbers" }
+      ]
+    },
+    "list_assistants": {
+      "limit": {
+        "label": "Limit",
+        "key": "limit",
+        "type": "codehinter",
+        "description": "Page size, 1–200. Blank uses the API default (50).",
+        "className": "codehinter-plugins",
+        "lineNumbers": false,
+        "placeholder": "50",
+        "height": "36px",
+        "width": "320px",
+        "editorType": "extendedSingleLine"
+      },
+      "offset": {
+        "label": "Offset",
+        "key": "offset",
+        "type": "codehinter",
+        "description": "Number of items to skip.",
+        "className": "codehinter-plugins",
+        "lineNumbers": false,
+        "placeholder": "0",
+        "height": "36px",
+        "width": "320px",
+        "editorType": "extendedSingleLine"
+      }
+    },
+    "get_assistant": {
+      "assistant_id": {
+        "label": "Assistant ID",
+        "key": "assistant_id",
+        "type": "codehinter",
+        "description": "Assistant UUID.",
+        "className": "codehinter-plugins",
+        "lineNumbers": false,
+        "placeholder": "a1b2c3d4-0000-4000-8000-000000000001",
+        "height": "36px",
+        "width": "320px",
+        "editorType": "extendedSingleLine",
+        "mandatory": true
+      }
+    },
+    "create_call": {
+      "assistant_id": {
+        "label": "Assistant ID",
+        "key": "assistant_id",
+        "type": "codehinter",
+        "description": "Active assistant that runs the call.",
+        "className": "codehinter-plugins",
+        "lineNumbers": false,
+        "placeholder": "a1b2c3d4-0000-4000-8000-000000000001",
+        "height": "36px",
+        "width": "320px",
+        "editorType": "extendedSingleLine",
+        "mandatory": true
+      },
+      "to_number": {
+        "label": "Phone number",
+        "key": "to_number",
+        "type": "codehinter",
+        "description": "Destination in E.164. Sent as to_number.",
+        "className": "codehinter-plugins",
+        "lineNumbers": false,
+        "placeholder": "+4915123456789",
+        "height": "36px",
+        "width": "320px",
+        "editorType": "extendedSingleLine",
+        "mandatory": true
+      },
+      "variables": {
+        "label": "Variables",
+        "key": "variables",
+        "type": "codehinter",
+        "description": "JSON object of per-call inputs. Keys are lowercase identifiers; values are strings, numbers, or booleans.",
+        "className": "codehinter-plugins",
+        "lineNumbers": false,
+        "placeholder": "{\"customer_name\":\"Ada\"}",
+        "height": "150px",
+        "width": "320px"
+      },
+      "phone_number_id": {
+        "label": "Caller ID",
+        "key": "phone_number_id",
+        "type": "codehinter",
+        "description": "Optional phone-number UUID to call from. Blank uses the assistant's number.",
+        "className": "codehinter-plugins",
+        "lineNumbers": false,
+        "placeholder": "",
+        "height": "36px",
+        "width": "320px",
+        "editorType": "extendedSingleLine"
+      },
+      "lead": {
+        "label": "Lead",
+        "key": "lead",
+        "type": "codehinter",
+        "description": "Optional contact context as a JSON object. Custom fields do not fill same-named variables.",
+        "className": "codehinter-plugins",
+        "lineNumbers": false,
+        "placeholder": "{\"name\":\"Jane Doe\",\"company\":\"Acme\"}",
+        "height": "150px",
+        "width": "320px"
+      }
+    },
+    "get_call": {
+      "call_id": {
+        "label": "Call ID",
+        "key": "call_id",
+        "type": "codehinter",
+        "description": "Call UUID. Use this to poll a call placed by Make outbound call.",
+        "className": "codehinter-plugins",
+        "lineNumbers": false,
+        "placeholder": "c1b2c3d4-0000-4000-8000-000000000001",
+        "height": "36px",
+        "width": "320px",
+        "editorType": "extendedSingleLine",
+        "mandatory": true
+      }
+    },
+    "list_calls": {
+      "assistant_id": {
+        "label": "Assistant ID",
+        "key": "assistant_id",
+        "type": "codehinter",
+        "description": "Optional assistant filter.",
+        "className": "codehinter-plugins",
+        "lineNumbers": false,
+        "placeholder": "",
+        "height": "36px",
+        "width": "320px",
+        "editorType": "extendedSingleLine"
+      },
+      "campaign_id": {
+        "label": "Campaign ID",
+        "key": "campaign_id",
+        "type": "codehinter",
+        "description": "Optional campaign filter.",
+        "className": "codehinter-plugins",
+        "lineNumbers": false,
+        "placeholder": "",
+        "height": "36px",
+        "width": "320px",
+        "editorType": "extendedSingleLine"
+      },
+      "status": {
+        "label": "Status",
+        "key": "status",
+        "type": "dropdown",
+        "description": "Optional call status.",
+        "list": [
+          { "value": "", "name": "Any" },
+          { "value": "queued", "name": "Queued" },
+          { "value": "ringing", "name": "Ringing" },
+          { "value": "in_progress", "name": "In progress" },
+          { "value": "completed", "name": "Completed" },
+          { "value": "failed", "name": "Failed" },
+          { "value": "no_answer", "name": "No answer" },
+          { "value": "busy", "name": "Busy" }
+        ]
+      },
+      "direction": {
+        "label": "Direction",
+        "key": "direction",
+        "type": "dropdown",
+        "list": [
+          { "value": "", "name": "Any" },
+          { "value": "inbound", "name": "Inbound" },
+          { "value": "outbound", "name": "Outbound" },
+          { "value": "web", "name": "Web" }
+        ]
+      },
+      "sort": {
+        "label": "Sort",
+        "key": "sort",
+        "type": "dropdown",
+        "description": "Newest first. Use updated_at when polling calls that finish later.",
+        "list": [
+          { "value": "", "name": "Created at (default)" },
+          { "value": "created_at", "name": "Created at" },
+          { "value": "updated_at", "name": "Updated at" }
+        ]
+      },
+      "from": {
+        "label": "From",
+        "key": "from",
+        "type": "codehinter",
+        "description": "Only calls created at or after this ISO 8601 timestamp.",
+        "className": "codehinter-plugins",
+        "lineNumbers": false,
+        "placeholder": "2026-01-01T00:00:00Z",
+        "height": "36px",
+        "width": "320px",
+        "editorType": "extendedSingleLine"
+      },
+      "to": {
+        "label": "To",
+        "key": "to",
+        "type": "codehinter",
+        "description": "Only calls created at or before this ISO 8601 timestamp.",
+        "className": "codehinter-plugins",
+        "lineNumbers": false,
+        "placeholder": "2026-01-31T23:59:59Z",
+        "height": "36px",
+        "width": "320px",
+        "editorType": "extendedSingleLine"
+      },
+      "limit": {
+        "label": "Limit",
+        "key": "limit",
+        "type": "codehinter",
+        "description": "Page size, 1–200.",
+        "className": "codehinter-plugins",
+        "lineNumbers": false,
+        "placeholder": "50",
+        "height": "36px",
+        "width": "320px",
+        "editorType": "extendedSingleLine"
+      },
+      "offset": {
+        "label": "Offset",
+        "key": "offset",
+        "type": "codehinter",
+        "className": "codehinter-plugins",
+        "lineNumbers": false,
+        "placeholder": "0",
+        "height": "36px",
+        "width": "320px",
+        "editorType": "extendedSingleLine"
+      }
+    },
+    "list_campaigns": {
+      "status": {
+        "label": "Status",
+        "key": "status",
+        "type": "dropdown",
+        "list": [
+          { "value": "", "name": "Any" },
+          { "value": "draft", "name": "Draft" },
+          { "value": "running", "name": "Running" },
+          { "value": "paused", "name": "Paused" },
+          { "value": "completed", "name": "Completed" },
+          { "value": "archived", "name": "Archived" }
+        ]
+      },
+      "limit": {
+        "label": "Limit",
+        "key": "limit",
+        "type": "codehinter",
+        "description": "Page size, 1–200.",
+        "className": "codehinter-plugins",
+        "lineNumbers": false,
+        "placeholder": "50",
+        "height": "36px",
+        "width": "320px",
+        "editorType": "extendedSingleLine"
+      },
+      "offset": {
+        "label": "Offset",
+        "key": "offset",
+        "type": "codehinter",
+        "className": "codehinter-plugins",
+        "lineNumbers": false,
+        "placeholder": "0",
+        "height": "36px",
+        "width": "320px",
+        "editorType": "extendedSingleLine"
+      }
+    },
+    "list_leads": {
+      "campaign_id": {
+        "label": "Campaign ID",
+        "key": "campaign_id",
+        "type": "codehinter",
+        "description": "Campaign whose leads to list.",
+        "className": "codehinter-plugins",
+        "lineNumbers": false,
+        "placeholder": "d1b2c3d4-0000-4000-8000-000000000001",
+        "height": "36px",
+        "width": "320px",
+        "editorType": "extendedSingleLine",
+        "mandatory": true
+      },
+      "status": {
+        "label": "Status",
+        "key": "status",
+        "type": "dropdown",
+        "description": "Ignored when display status is also set; the API prefers display_status.",
+        "list": [
+          { "value": "", "name": "Any" },
+          { "value": "pending", "name": "Pending" },
+          { "value": "queued", "name": "Queued" },
+          { "value": "calling", "name": "Calling" },
+          { "value": "completed", "name": "Completed" },
+          { "value": "failed", "name": "Failed" },
+          { "value": "no_answer", "name": "No answer" },
+          { "value": "busy", "name": "Busy" },
+          { "value": "do_not_call", "name": "Do not call" }
+        ]
+      },
+      "display_status": {
+        "label": "Display status",
+        "key": "display_status",
+        "type": "dropdown",
+        "list": [
+          { "value": "", "name": "Any" },
+          { "value": "created", "name": "Created" },
+          { "value": "processing", "name": "Processing" },
+          { "value": "rescheduled", "name": "Rescheduled" },
+          { "value": "max_retries", "name": "Max retries" },
+          { "value": "completed", "name": "Completed" },
+          { "value": "dnc", "name": "Do not call" }
+        ]
+      },
+      "limit": {
+        "label": "Limit",
+        "key": "limit",
+        "type": "codehinter",
+        "description": "Page size, 1–200.",
+        "className": "codehinter-plugins",
+        "lineNumbers": false,
+        "placeholder": "50",
+        "height": "36px",
+        "width": "320px",
+        "editorType": "extendedSingleLine"
+      },
+      "offset": {
+        "label": "Offset",
+        "key": "offset",
+        "type": "codehinter",
+        "className": "codehinter-plugins",
+        "lineNumbers": false,
+        "placeholder": "0",
+        "height": "36px",
+        "width": "320px",
+        "editorType": "extendedSingleLine"
+      }
+    },
+    "create_lead": {
+      "campaign_id": {
+        "label": "Campaign ID",
+        "key": "campaign_id",
+        "type": "codehinter",
+        "description": "Campaign that receives the lead.",
+        "className": "codehinter-plugins",
+        "lineNumbers": false,
+        "placeholder": "d1b2c3d4-0000-4000-8000-000000000001",
+        "height": "36px",
+        "width": "320px",
+        "editorType": "extendedSingleLine",
+        "mandatory": true
+      },
+      "phone": {
+        "label": "Phone",
+        "key": "phone",
+        "type": "codehinter",
+        "description": "Phone number, normalized to E.164 by Famulor.",
+        "className": "codehinter-plugins",
+        "lineNumbers": false,
+        "placeholder": "+491701234567",
+        "height": "36px",
+        "width": "320px",
+        "editorType": "extendedSingleLine",
+        "mandatory": true
+      },
+      "name": {
+        "label": "Name",
+        "key": "name",
+        "type": "codehinter",
+        "className": "codehinter-plugins",
+        "lineNumbers": false,
+        "placeholder": "Ada Lovelace",
+        "height": "36px",
+        "width": "320px",
+        "editorType": "extendedSingleLine"
+      },
+      "email": {
+        "label": "Email",
+        "key": "email",
+        "type": "codehinter",
+        "className": "codehinter-plugins",
+        "lineNumbers": false,
+        "placeholder": "ada@example.com",
+        "height": "36px",
+        "width": "320px",
+        "editorType": "extendedSingleLine"
+      },
+      "custom_fields": {
+        "label": "Custom fields",
+        "key": "custom_fields",
+        "type": "codehinter",
+        "description": "JSON object of extra fields available to the assistant.",
+        "className": "codehinter-plugins",
+        "lineNumbers": false,
+        "placeholder": "{\"plan\":\"pro\"}",
+        "height": "150px",
+        "width": "320px"
+      }
+    },
+    "list_phone_numbers": {
+      "assistant_id": {
+        "label": "Assistant ID",
+        "key": "assistant_id",
+        "type": "codehinter",
+        "description": "Optional assigned-assistant filter.",
+        "className": "codehinter-plugins",
+        "lineNumbers": false,
+        "placeholder": "",
+        "height": "36px",
+        "width": "320px",
+        "editorType": "extendedSingleLine"
+      },
+      "status": {
+        "label": "Status",
+        "key": "status",
+        "type": "dropdown",
+        "list": [
+          { "value": "", "name": "Any" },
+          { "value": "active", "name": "Active" },
+          { "value": "pending", "name": "Pending" },
+          { "value": "released", "name": "Released" },
+          { "value": "suspended", "name": "Suspended" }
+        ]
+      },
+      "country": {
+        "label": "Country",
+        "key": "country",
+        "type": "codehinter",
+        "description": "ISO-2 country code.",
+        "className": "codehinter-plugins",
+        "lineNumbers": false,
+        "placeholder": "DE",
+        "height": "36px",
+        "width": "320px",
+        "editorType": "extendedSingleLine"
+      },
+      "limit": {
+        "label": "Limit",
+        "key": "limit",
+        "type": "codehinter",
+        "description": "Page size, 1–200.",
+        "className": "codehinter-plugins",
+        "lineNumbers": false,
+        "placeholder": "50",
+        "height": "36px",
+        "width": "320px",
+        "editorType": "extendedSingleLine"
+      },
+      "offset": {
+        "label": "Offset",
+        "key": "offset",
+        "type": "codehinter",
+        "className": "codehinter-plugins",
+        "lineNumbers": false,
+        "placeholder": "0",
+        "height": "36px",
+        "width": "320px",
+        "editorType": "extendedSingleLine"
+      }
+    }
+  }
+}
