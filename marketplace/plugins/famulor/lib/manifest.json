@@ -1,0 +1,50 @@
+{
+  "$schema": "https://raw.githubusercontent.com/ToolJet/ToolJet/develop/plugins/schemas/manifest.schema.json",
+  "title": "Famulor datasource",
+  "description": "A schema defining Famulor datasource",
+  "type": "api",
+  "source": {
+    "name": "Famulor",
+    "kind": "famulor",
+    "exposedVariables": {
+      "isLoading": false,
+      "data": {},
+      "rawData": {}
+    },
+    "options": {
+      "api_key": {
+        "type": "string",
+        "encrypted": true
+      },
+      "base_url": {
+        "type": "string"
+      }
+    },
+    "customTesting": false
+  },
+  "defaults": {
+    "api_key": {
+      "value": ""
+    },
+    "base_url": {
+      "value": ""
+    }
+  },
+  "properties": {
+    "api_key": {
+      "label": "API key",
+      "key": "api_key",
+      "type": "password",
+      "description": "Famulor API key (fam_...). Sent as a bearer token.",
+      "help_text": "Create a key under Settings → API Keys at <a href='https://app.famulor.io' target='_blank' rel='noreferrer'>app.famulor.io</a>."
+    },
+    "base_url": {
+      "label": "Base URL (optional)",
+      "key": "base_url",
+      "type": "text",
+      "description": "Leave blank for the hosted API. White-label tenants: your domain, with or without /api/v1.",
+      "placeholder": "https://app.famulor.io/api/v1"
+    }
+  },
+  "required": ["api_key"]
+}
